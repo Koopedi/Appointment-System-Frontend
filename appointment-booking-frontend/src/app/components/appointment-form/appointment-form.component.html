@@ -1,0 +1,43 @@
+<div class="form-container">
+  <h2>New Appointment</h2>
+  <form (ngSubmit)="submit()" class="appointment-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Customer Name</mat-label>
+      <input matInput [(ngModel)]="customerName" name="customerName" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Branch Name</mat-label>
+      <mat-select [(ngModel)]="branchName" name="branchName" required (selectionChange)="onDateOrBranchChange()">
+        <mat-option *ngFor="let branch of branches" [value]="branch">
+          {{ branch }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Appointment Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="appointmentDate" name="appointmentDate" required (dateChange)="onDateOrBranchChange()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Appointment Time</mat-label>
+      <mat-select [(ngModel)]="appointmentTime" name="appointmentTime" required [disabled]="!appointmentDate || !branchName || isLoadingTimes">
+        <mat-option *ngFor="let time of availableTimeOptions" [value]="time">
+          {{ time }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contact Number</mat-label>
+      <input matInput [(ngModel)]="contactNumber" name="contactNumber" required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button mat-raised-button color="primary" (click)="cancelAppointment()">Cancel</button>
+  </form>
+</div>
